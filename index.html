@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/css.css"/>
+		<script type="text/javascript" src="iShare_tidy.js"></script>
+	</head>
+	<body>
+		
+		<div class="lin">
+			新闻名;<input type="text" id="user" /><br />
+			作 者：<input type="text" id="bookname" /><br />
+			<!--类 型：<input type="text" id="titlename" /><br />-->
+			内 容：<textarea id="txt">1151</textarea><br />
+			<button id="btn4">点我啊</button>
+			<div class="a">
+				<a href="http://localhost:8000/list/list?user=新闻">查看新闻</a>
+			</div>
+		</div>
+		
+		
+		<div class="iShare iShare1">
+		    <a href="#" class="iShare_qzone"><i class="iconfont qzone">&#xe610;</i></a>
+		    <a href="#" class="iShare_tencent"><i class="iconfont tencent" style="vertical-align: -2px;">&#xe608;</i></a>
+		    <a href="#" class="iShare_weibo"><i class="iconfont weibo">&#xe609;</i></a>
+		    <a href="#" class="iShare_wechat"><i class="iconfont wechat" style="vertical-align: -2px;">&#xe613;</i></a>
+		    <a href="#" class="iShare_facebook"><i class="iconfont facebook" style="vertical-align: 1px;">&#xe601;</i></a>
+		    <a href="#" class="iShare_googleplus"><i class="iconfont googleplus" style="vertical-align: -1px;">&#xe60b;</i></a>
+		    <a href="#" class="iShare_linkedin"><i class="iconfont linkedin" style="vertical-align: 2px;">&#xe607;</i></a>
+		    <a href="#">我是酱油一号</a>
+		    <a href="#">我是酱油二号</a>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+			btn4.onclick = function(){
+				ajax({
+					url: 'http://localhost:8000/list/tian',
+					type: 'post',
+					data: {
+						user: user.value,
+						bookname: bookname.value,
+//						titlename:titlename.value,
+						txt:txt.value
+					},
+					success: function(da) {
+						console.log(da)
+					},
+					error: function() {}
+				})
+			}
+			
+			function ajax(req) {
+				var ajax = new XMLHttpRequest()
+				if(req.type == 'get') {
+					ajax.open('get', req.url + '?' + strdata(req.data), true)
+					ajax.send()
+				} else {
+					ajax.open('post', req.url, true)
+					ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+					ajax.send(strdata(req.data))
+				}
+				ajax.onreadystatechange = function() {
+					if(ajax.readyState == 4) {
+						if(ajax.status >= 200 && ajax.status < 300 || ajax.status == 304) {
+							req.success(ajax.responseText)
+						} else {
+							req.error(ajax.status)
+						}
+		
+					}
+				}
+				function strdata(da) {
+					var arr = []
+					for(var i in da) {
+						arr.push(i + '=' + da[i])
+					}
+					var strurl = arr.join('&')
+					return strurl
+				}
+			}
+			
+			iShare_config = {container:'.iShare1',config:{
+		        title: '分享标题',
+		        description: '这是分享描述文本',
+		        url: 'https://github.com/zhansingsong',
+		        WXoptions:{
+		            evenType: 'click',
+		            isTitleVisibility: true,
+		            title: '二维码标题',
+		            isTipVisibility: true,
+		            tip: '二维码描述文本',
+		            bgcolor: '#2BAD13',
+		        }
+    		}};
+			
+			
+		</script>
+	
+	
+	
+</html>
